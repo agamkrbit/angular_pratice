@@ -1,3 +1,52 @@
-<p>
-  contact works!
-</p>
+<div class="form-width">
+  <h3>Send Us Your Feedback</h3>
+  <hr>
+  <form novalidate [formGroup] = "feedbackForm" (ngSubmit) = "onSubmit()">
+    <p>
+      <mat-form-field class="half-width" 
+                      dividerColor="{{formErrors.firstname? 'warn' : 'primary'}}">
+        <input matInput type="text" placeholder="First Name" formControlName="firstname">
+        <mat-hint>
+          <span [hidden]="!formErrors.firstname">{{formErrors.firstname}}</span>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="half-width"
+                      dividerColor="{{formErrors.lastname ? 'warn' : 'primary'}}">
+        <input matInput type="text" placeholder="Last Name" formControlName="lastname">
+        <mat-hint>
+            <span [hidden]="!formErrors.lastname">{{formErrors.lastname}}</span>
+          </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="half-width"
+                      dividerColor="{{formErrors.telnum ? 'warn' : 'primary'}}">
+        <input matInput type="tel" placeholder="Tel. number" pattern="[0-9]*" formControlName="telnum">
+        <mat-hint>
+            <span [hidden]="!formErrors.telnum">{{formErrors.telnum}}</span>
+          </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="half-width"
+                      dividerColor="{{formErrors.email ? 'warn' : 'primary'}}">
+        <input matInput type="email" placeholder="Email" email formControlName="email">
+        <mat-hint>
+            <span [hidden]="!formErrors.email">{{formErrors.email}}</span>
+          </mat-hint>
+      </mat-form-field>
+    </p>
+    <table class="full-width">
+      <td class="half-width">
+        <mat-slide-toggle formControlName="agree">Can we contact you?</mat-slide-toggle>
+      </td>
+      <td class="half-width">
+          <mat-select formControlName="contactType" placeholder="Contact Type">
+              <mat-option *ngFor="let contact of contactType" [value]="contact">{{contact}}</mat-option>
+          </mat-select>
+      </td>
+    </table>
+    <p>
+      <mat-form-field class="full-width">
+        <textarea matInput formControlName="message" placeholder="Feedback message" rows=12></textarea>
+      </mat-form-field>
+    </p>
+    <button mat-button [disabled]= "feedbackForm.invalid" class="background-primary text-floral-white" type="submit">Submit</button>
+  </form>
+</div>

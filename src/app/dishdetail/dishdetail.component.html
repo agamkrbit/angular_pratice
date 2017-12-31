@@ -8,9 +8,11 @@
       <p>{{dish.description}}</p>
     </mat-card-content>
     <mat-card-actions>
+      <button mat-button [routerLink] = "['/dishdetail', prev]"><i class="fa fa-chevron-left"></i></button>
       <button mat-button>LIKE</button>
       <button mat-button>SHARE</button>
       <button mat-button (click)="goBack()">BACK</button>
+      <button mat-button [routerLink] = "['/dishdetail', next]"><i class="fa fa-chevron-right"></i></button>
     </mat-card-actions>
   </mat-card>
   <mat-card fxFlex>
@@ -30,7 +32,45 @@
                 <span>{{comment.date | date}}</span>
               </p>
             </mat-list-item>
+            <mat-list-item *ngIf="comment">
+                <img matListAvatar src="../../assets/images/alberto.png">
+                <h3 matLine>{{comment.comment}}</h3>
+                <div matLine>
+                  <span class="fa fa-star" *ngFor="let i of generateSeq(comment.rating)"></span>
+                </div>
+                <p matLine>
+                  <span>{{comment.author}}</span>
+                  <span>{{comment.date | date}}</span>
+                </p>
+              </mat-list-item>
           </mat-list>
+        <div>
+          <form novalidate class="form-width" [formGroup] ="commentForm" (ngSubmit)="onSubmit()">
+            <h4>Add Comments</h4>
+            <hr>
+            <p>
+              <mat-form-field class="full-width" dividerColor="{{formErrors.author ? 'warn' : 'primary'}}">
+                <input matInput formControlName="author" type="text" placeholder="User Name">
+                <mat-hint>
+                  <span [hidden]="!formErrors.author">
+                    {{formErrors.author}}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+              <mat-form-field class="full-width" dividerColor="{{formErrors.comment ? 'warn' : 'primary'}}">
+                <textarea matInput formControlName="comment" placeholder="Comment" rows="4"></textarea>
+                <mat-hint>
+                    <span [hidden]="!formErrors.comment">
+                      {{formErrors.comment}}
+                    </span>
+                </mat-hint>
+              </mat-form-field>
+              <mat-label>Rating</mat-label>
+              <mat-slider formControlName="rating" max=5 min=0 step=1 tick-interval=1 thumb-label=true></mat-slider>
+            </p>
+            <button mat-button [disabled]="commentForm.invalid" class="background-primary text-floral-white">SUBMIT</button>
+          </form>
+        </div>
     </mat-card-content>
   </mat-card>
 </div>
